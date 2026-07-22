@@ -165,6 +165,37 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
   }
 
+
+  /* 只有 data.js 提供 image 时才会显示 */
+  .image-container {
+    display: none;
+  }
+
+  .popup.has-image {
+    width: min(92%, 700px);
+    padding-top: 26px;
+  }
+
+  .popup.has-image .image-container {
+    display: block;
+    width: 100%;
+    margin: 0 0 24px;
+    overflow: hidden;
+    border: 3px solid #d7e9f7;
+    border-radius: 18px;
+    background: #eef8ff;
+    box-shadow: 0 6px 16px rgba(47, 91, 130, 0.16);
+  }
+
+  .popup-image {
+    display: block;
+    width: 100%;
+    max-height: 330px;
+    object-fit: contain;
+    object-position: center;
+    background: #ffffff;
+  }
+
   .title {
     display: inline-block;
     margin: 0 0 22px;
@@ -306,6 +337,22 @@
       height: 15px;
     }
 
+
+    .popup.has-image {
+      width: 100%;
+      padding-top: 22px;
+    }
+
+    .popup.has-image .image-container {
+      margin-bottom: 18px;
+      border-width: 2px;
+      border-radius: 14px;
+    }
+
+    .popup-image {
+      max-height: 245px;
+    }
+
     .title {
       margin-bottom: 17px;
       padding: 6px 13px;
@@ -351,6 +398,15 @@
 
 <body>
   <main class="popup" id="popup">
+    <div class="image-container" id="imageContainer" hidden>
+      <img
+        class="popup-image"
+        id="popupImage"
+        src=""
+        alt=""
+      />
+    </div>
+
     <h1 class="title" id="title"></h1>
 
     <section class="language-row">
@@ -412,6 +468,8 @@
     const item = window.POPUP_DATA?.[contentId];
 
     const popup = document.getElementById("popup");
+    const imageContainer = document.getElementById("imageContainer");
+    const popupImage = document.getElementById("popupImage");
     const buttons = document.querySelectorAll(".audio-button");
 
     let currentAudio = null;
@@ -444,6 +502,25 @@
       document.getElementById("bmText").textContent = item.bm;
       document.getElementById("zhText").textContent = item.zh;
       document.getElementById("enText").textContent = item.en;
+
+      /* 有 image：显示图片版；没有 image：保留原本版面 */
+      if (item.image) {
+        popup.classList.add("has-image");
+        imageContainer.hidden = false;
+        popupImage.src = item.image;
+        popupImage.alt = item.imageAlt || item.title || "";
+      } else {
+        popup.classList.remove("has-image");
+        imageContainer.hidden = true;
+        popupImage.removeAttribute("src");
+        popupImage.alt = "";
+      }
+
+      popupImage.addEventListener("error", () => {
+        popup.classList.remove("has-image");
+        imageContainer.hidden = true;
+        console.error("找不到图片：", item.image);
+      });
 
       buttons.forEach((button) => {
         const language = button.dataset.language;
