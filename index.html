@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1"
+  />
+
+  <title>Trilingual Explanation</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      font-family: Arial, "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      background: transparent;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .popup {
+      width: min(100%, 480px);
+      background: #ffffff;
+      border: 3px solid #9a9a9a;
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+    }
+
+    .title {
+      margin: 0 0 18px;
+      color: #ef3434;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .language-row {
+      display: grid;
+      grid-template-columns: 1fr 52px;
+      gap: 14px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .language-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .label {
+      margin-bottom: 4px;
+      color: #333333;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    .text {
+      color: #444444;
+      font-size: 19px;
+      line-height: 1.35;
+      white-space: pre-line;
+    }
+
+    .audio-button {
+      width: 48px;
+      height: 48px;
+      border: 0;
+      border-radius: 50%;
+      background: #676b75;
+      color: #ffffff;
+      font-size: 22px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+    }
+
+    .audio-button:active {
+      transform: scale(0.95);
+    }
+
+    .error {
+      color: #b00020;
+      font-size: 17px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 420px) {
+      body {
+        padding: 10px;
+      }
+
+      .popup {
+        padding: 17px;
+      }
+
+      .title {
+        font-size: 21px;
+      }
+
+      .text {
+        font-size: 17px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="popup" id="popup">
+    <h1 class="title" id="title"></h1>
+
+    <section class="language-row">
+      <div>
+        <div class="label">Bahasa Melayu:</div>
+        <div class="text" id="bmText"></div>
+      </div>
+
+      <button
+        class="audio-button"
+        type="button"
+        data-language="bm"
+        aria-label="Mainkan audio Bahasa Melayu"
+      >
+        ▶
+      </button>
+    </section>
+
+    <section class="language-row">
+      <div>
+        <div class="label">中文：</div>
+        <div class="text" id="zhText"></div>
+      </div>
+
+      <button
+        class="audio-button"
+        type="button"
+        data-language="zh"
+        aria-label="播放中文音频"
+      >
+        ▶
+      </button>
+    </section>
+
+    <section class="language-row">
+      <div>
+        <div class="label">English:</div>
+        <div class="text" id="enText"></div>
+      </div>
+
+      <button
+        class="audio-button"
+        type="button"
+        data-language="en"
+        aria-label="Play English audio"
+      >
+        ▶
+      </button>
+    </section>
+  </main>
+
+  <script src="Js/data.js"></script>
+
+  <script>
+    "use strict";
+
+    const params = new URLSearchParams(window.location.search);
+    const contentId = params.get("id");
+    const item = window.POPUP_DATA?.[contentId];
+
+    const popup = document.getElementById("popup");
+    const buttons = document.querySelectorAll(".audio-button");
+
+    let currentAudio = null;
+    let currentButton = null;
+
+    function stopAudio() {
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio.currentTime = 0;
+        currentAudio = null;
+      }
+
+      if (currentButton) {
+        currentButton.textContent = "▶";
+        currentButton = null;
+      }
+    }
+
+    function showError(message) {
+      popup.innerHTML = `<div class="error"></div>`;
+      popup.querySelector(".error").textContent = message;
+    }
+
+    if (!contentId) {
+      showError("没有提供内容 ID。");
+    } else if (!item) {
+      showError(`找不到内容：${contentId}`);
+    } else {
+      document.getElementById("title").textContent = item.title;
+      document.getElementById("bmText").textContent = item.bm;
+      document.getElementById("zhText").textContent = item.zh;
+      document.getElementById("enText").textContent = item.en;
+
+      buttons.forEach((button) => {
+        const language = button.dataset.language;
+        const source = item.audio?.[language];
+
+        if (!source) {
+          button.hidden = true;
+          return;
+        }
+
+        button.addEventListener("click", async () => {
+          if (
+            currentAudio &&
+            currentButton === button &&
+            !currentAudio.paused
+          ) {
+            currentAudio.pause();
+            button.textContent = "▶";
+            return;
+          }
+
+          stopAudio();
+
+          currentAudio = new Audio(source);
+          currentButton = button;
+          button.textContent = "■";
+
+          currentAudio.addEventListener("ended", stopAudio);
+          currentAudio.addEventListener("error", () => {
+            stopAudio();
+            alert("音频无法播放，请检查文件名称和路径。");
+          });
+
+          try {
+            await currentAudio.play();
+          } catch (error) {
+            stopAudio();
+            alert("浏览器暂时无法播放这个音频。");
+            console.error(error);
+          }
+        });
+      });
+    }
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        stopAudio();
+      }
+    });
+
+    window.addEventListener("pagehide", stopAudio);
+  </script>
+</body>
+</html>
