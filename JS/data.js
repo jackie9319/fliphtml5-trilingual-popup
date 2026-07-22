@@ -113,7 +113,7 @@ window.POPUP_DATA = {
   "seni-bahasa-sjkc-bm-t2-bt-page-15": {
     title: "Seni Bahasa",
     bm: "Pak Cik Teoh membawa Guan Hong dan Ben Li ke kolam ikannya. Guan Hong dan Ben Li sangat suka hati. \nKolam ikan pak cik mereka sangat besar. Pekerja-pekerjanya ringan tulang. Mereka bekerja seperti lipas kudung. \nPak Cik Teoh: Guan Hong, bawa balik ikan ini. Kita minta nenek masak untuk makan tengah hari. \nGuan Hong: Baik, pak cik. \nGuan Hong dan Ben Li ingin mengikut jejak langkah pak cik mereka suatu hari nanti.",
-    zh: "张叔叔带 Guan Hong 和 Ben Li 到他的鱼塘。Guan Hong 和 Ben Li 感到非常开心。\n叔叔的鱼塘非常大。他的员工都很勤劳, 也很乐于帮忙。他们工作起来非常迅速。\n张叔叔说: “ Guan Hong, 把这条鱼带回去吧。我们请奶奶煮来当午餐。” \nGuan Hong 说：“好的, 叔叔。” \nGuan Hong 和 Ben Li 希望有一天能够追随叔叔的脚步，以叔叔为榜样。",
+    zh: "张叔叔带冠宏和文礼到他的鱼塘。冠宏和文礼感到非常开心。\n叔叔的鱼塘非常大。他的员工都很勤劳, 也很乐于帮忙。他们工作起来非常迅速。\n张叔叔说: “ 冠宏, 把这条鱼带回去吧。我们请奶奶煮来当午餐。” \n冠宏说：“好的, 叔叔。” \n冠宏和文礼希望有一天能够追随叔叔的脚步，以叔叔为榜样。",
     en: "Uncle Teoh took Guan Hong and Ben Li to his fish pond. Guan Hong and Ben Li felt very happy. \nTheir uncle's fish pond was very large. His workers were hardworking and always willing to help. They worked very quickly. \nUncle Teoh: Guan Hong, take this fish home. We will ask Grandma to cook it for lunch. \nGuan Hong: All right, \nUncle.Guan Hong and Ben Li hoped to follow in their uncle's footsteps one day.",
     audio: {
       bm: "BM/SJKC/Tahun 2/Buku Teks/Audio/BM/seni-bahasa-page15-petikan-BM.mp3",
