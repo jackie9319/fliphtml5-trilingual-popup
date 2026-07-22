@@ -10,107 +10,343 @@
   <title>Trilingual Explanation</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+  * {
+    box-sizing: border-box;
+  }
 
-    html,
-    body {
-      margin: 0;
-      min-height: 100%;
-      font-family: Arial, "Microsoft YaHei", "Noto Sans SC", sans-serif;
-      background: transparent;
-    }
+  html,
+  body {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    font-family:
+      Arial,
+      "Microsoft YaHei",
+      "Noto Sans SC",
+      sans-serif;
+  }
 
+  body {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 28px 20px;
+    overflow: auto;
+
+    /* 小学太空主题背景 */
+    background:
+      radial-gradient(
+        circle at 8% 18%,
+        rgba(255, 255, 255, 0.95) 0 3px,
+        transparent 4px
+      ),
+      radial-gradient(
+        circle at 20% 72%,
+        rgba(255, 255, 255, 0.85) 0 2px,
+        transparent 3px
+      ),
+      radial-gradient(
+        circle at 86% 24%,
+        rgba(255, 255, 255, 0.95) 0 3px,
+        transparent 4px
+      ),
+      radial-gradient(
+        circle at 92% 78%,
+        rgba(255, 255, 255, 0.8) 0 2px,
+        transparent 3px
+      ),
+      radial-gradient(
+        circle at 12% 82%,
+        rgba(255, 221, 105, 0.42) 0 70px,
+        transparent 72px
+      ),
+      radial-gradient(
+        circle at 88% 14%,
+        rgba(174, 223, 255, 0.7) 0 90px,
+        transparent 92px
+      ),
+      radial-gradient(
+        circle at 82% 88%,
+        rgba(213, 193, 255, 0.45) 0 95px,
+        transparent 98px
+      ),
+      linear-gradient(
+        180deg,
+        #dff5ff 0%,
+        #f3fbff 48%,
+        #fff8d9 100%
+      );
+  }
+
+  /* 左上角装饰星球 */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 28px;
+    left: 38px;
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    background:
+      linear-gradient(
+        160deg,
+        #ffcf4a 0%,
+        #ff9d3b 48%,
+        #ff7452 100%
+      );
+    box-shadow:
+      0 8px 18px rgba(0, 0, 0, 0.12),
+      24px 12px 0 -28px #ffffff;
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  /* 右下角装饰圆形 */
+  body::after {
+    content: "";
+    position: fixed;
+    right: 42px;
+    bottom: 30px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background:
+      radial-gradient(
+        circle at 35% 30%,
+        #ffffff 0 7px,
+        transparent 8px
+      ),
+      linear-gradient(
+        145deg,
+        #73d8c1,
+        #45bda8
+      );
+    opacity: 0.75;
+    pointer-events: none;
+  }
+
+  .popup {
+    position: relative;
+    z-index: 1;
+    width: min(88%, 620px);
+    background:
+      linear-gradient(
+        180deg,
+        #ffffff 0%,
+        #fffef7 100%
+      );
+    border: 4px solid #65aee8;
+    border-radius: 24px;
+    padding: 32px 34px 28px;
+    box-shadow:
+      0 12px 30px rgba(47, 91, 130, 0.24),
+      0 3px 0 rgba(255, 255, 255, 0.9) inset;
+  }
+
+  /* 卡片上方彩色装饰条 */
+  .popup::before {
+    content: "";
+    position: absolute;
+    top: -14px;
+    left: 42px;
+    right: 42px;
+    height: 19px;
+    border-radius: 20px;
+    background:
+      linear-gradient(
+        90deg,
+        #ffcf4a 0 25%,
+        #ff7c73 25% 50%,
+        #62cdb7 50% 75%,
+        #7ab8ff 75% 100%
+      );
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  .title {
+    display: inline-block;
+    margin: 0 0 22px;
+    padding: 7px 16px;
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.2;
+    background:
+      linear-gradient(
+        135deg,
+        #ff645f,
+        #ef3f48
+      );
+    border-radius: 13px;
+    box-shadow: 0 5px 10px rgba(239, 63, 72, 0.2);
+  }
+
+  .language-row {
+    display: grid;
+    grid-template-columns: 1fr 58px;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 14px 16px;
+    border: 2px solid #e1edf5;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.88);
+  }
+
+  .language-row:nth-of-type(1) {
+    border-left: 8px solid #ffcb4d;
+  }
+
+  .language-row:nth-of-type(2) {
+    border-left: 8px solid #67cdb8;
+  }
+
+  .language-row:nth-of-type(3) {
+    border-left: 8px solid #72aef5;
+  }
+
+  .language-row:last-child {
+    margin-bottom: 0;
+  }
+
+  .label {
+    margin-bottom: 5px;
+    color: #2f4052;
+    font-size: 17px;
+    font-weight: 800;
+  }
+
+  .text {
+    color: #3f4650;
+    font-size: 19px;
+    line-height: 1.4;
+    white-space: pre-line;
+  }
+
+  .audio-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    border: 4px solid #ffffff;
+    border-radius: 50%;
+    background:
+      linear-gradient(
+        145deg,
+        #6f7b91,
+        #525d72
+      );
+    color: #ffffff;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow:
+      0 5px 10px rgba(34, 54, 79, 0.28),
+      0 0 0 2px #dce7f1;
+    transition:
+      transform 0.15s ease,
+      box-shadow 0.15s ease;
+  }
+
+  .audio-button:hover {
+    transform: scale(1.06);
+    box-shadow:
+      0 7px 14px rgba(34, 54, 79, 0.3),
+      0 0 0 3px #cde5fa;
+  }
+
+  .audio-button:active {
+    transform: scale(0.94);
+  }
+
+  .audio-button:focus-visible {
+    outline: 4px solid rgba(255, 202, 69, 0.8);
+    outline-offset: 3px;
+  }
+
+  .error {
+    color: #b00020;
+    font-size: 17px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 600px) {
     body {
-      display: flex;
       align-items: flex-start;
-      justify-content: center;
-      padding: 45px 20px 20px;
+      padding: 25px 12px;
+    }
+
+    body::before {
+      top: 12px;
+      left: 12px;
+      width: 52px;
+      height: 52px;
+    }
+
+    body::after {
+      right: 10px;
+      bottom: 12px;
+      width: 60px;
+      height: 60px;
     }
 
     .popup {
-      width: min(82vw, 700px);
-      background: #ffffff;
-      border: 3px solid #9a9a9a;
-      border-radius: 16px;
-      padding: 22px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+      width: 100%;
+      padding: 27px 17px 18px;
+      border-width: 3px;
+      border-radius: 19px;
+    }
+
+    .popup::before {
+      left: 25px;
+      right: 25px;
+      height: 15px;
     }
 
     .title {
-      margin: 0 0 18px;
-      color: #ef3434;
-      font-size: 24px;
-      font-weight: 700;
+      margin-bottom: 17px;
+      padding: 6px 13px;
+      font-size: 22px;
     }
 
     .language-row {
-      display: grid;
-      grid-template-columns: 1fr 52px;
-      gap: 14px;
-      align-items: center;
-      margin-bottom: 18px;
-    }
-
-    .language-row:last-child {
-      margin-bottom: 0;
+      grid-template-columns: 1fr 50px;
+      gap: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-radius: 13px;
     }
 
     .label {
-      margin-bottom: 4px;
-      color: #333333;
-      font-size: 17px;
-      font-weight: 700;
+      font-size: 16px;
     }
 
     .text {
-      color: #444444;
-      font-size: 19px;
-      line-height: 1.35;
-      white-space: pre-line;
+      font-size: 17px;
     }
 
     .audio-button {
-      width: 48px;
-      height: 48px;
-      border: 0;
-      border-radius: 50%;
-      background: #676b75;
-      color: #ffffff;
-      font-size: 22px;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+      width: 47px;
+      height: 47px;
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .language-row {
+      grid-template-columns: 1fr 44px;
     }
 
-    .audio-button:active {
-      transform: scale(0.95);
+    .audio-button {
+      width: 42px;
+      height: 42px;
+      font-size: 18px;
     }
-
-    .error {
-      color: #b00020;
-      font-size: 17px;
-      line-height: 1.5;
-    }
-
-    @media (max-width: 420px) {
-      body {
-        padding: 10px;
-      }
-
-      .popup {
-        padding: 17px;
-      }
-
-      .title {
-        font-size: 21px;
-      }
-
-      .text {
-        font-size: 17px;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 
 <body>
